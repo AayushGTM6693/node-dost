@@ -1,0 +1,7 @@
+- In Node there are certain objects called event emitter that emits named event.
+These events are picked up by event listeners and callback func attached to them gets fired
+
+for eg =>  server.emit("request");
+           server.on("request",(req,res)=>{}) // server is the instance of node js Event emitter class
+           
+- Event emitter logic  = Observer pattern

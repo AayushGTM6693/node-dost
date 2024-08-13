@@ -1,0 +1,32 @@
+- Streams used to process data piece by piece(chunks) without 
+completing the whole read or write operation
+- useful for handling large volumes of data, no need to keep 
+all data in the memory
+- streams are the instances of the EventEmitter class
+
+- There are 4 types of Streams
+
+1. Readable streams - we can read the  data, eg http req, fs read streams 
+ event => data,end , func=> pipe() , read()
+  
+2. Writable streams - we can write the data , eg http req, fs read streams
+ event => drain,finish , func=> write(), end()
+
+3. Duplex streams - readable and writible streams, eg websocket
+
+4. Transform streams - duplex stream that transform data, eg zlib gzip compression
+
+//  streams no. 1
+const readable = fs.createReadStream("sample.txt")
+readable.on(
+    "data",chunk=>{
+        res.write(chunk)
+    }
+)
+readable.on("end",()=>{
+    res.end()
+})
+
+// streams no. 2
+const readable = fs.createReadStream("sample.txt")
+readable.pipe(res) // readableSource.pipe(WritableSource)

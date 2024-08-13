@@ -1,0 +1,31 @@
+- when we use node, there is a node process(program in execution) running on it 
+- node runs in a single thread(sequence of instruction) i.e easy to block node application
+
+- when the program is initalized, 
+1. All the top level( not inside callbacks) code will be executed
+2. all the modules are required + callbacks are registered
+
+- Event loops starts running....
+- if some heavy tasks arises it will block the single thread 
+thats where the thread pool comes in.
+- Thread pool gives 4 additional thread , further we can configure upto 128.
+- event loop can automatically offload the heavy tasks to the thread pool
+- in this way the event loop is not blocked
+
+EVENT LOOP 
+- it makes async programming in node js
+- event loop has multiple phases , each phase has a call back queue
+- callbacks in each queue are processed one by one until there are no ones left in the queue
+only then the event loop will enter the next phase
+1. firstly it takes care of expired timer callbacks
+2. I/O(networking,file access) polling and execution of I/O callbacks
+3. setImmediate callbacks
+4. close callbacks
+one cycle of event loop is finished
+- if any pending tasks ajhai baki xa bhane feri yei loop chalxa
+else exit
+
+Tips not to  block the thread
+- dont use sync version of func in fs 
+- careful in json with large object
+- careful with complex regex

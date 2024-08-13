@@ -1,0 +1,14 @@
+- node js = v8 engine(c++) +  libuv(c++) 
+- v8 converts the js code into machine code 
+- libuv is a open source library strong foucs
+on async io. This layer gives node access to underlying
+computer OS, file, networking etc.
+
+- libuv contains event loop and thread pool
+
+- event loop => it handles easy tasks (executing callbacks)
+- thread pool => it handles heavy tasks (file access, compression)
+- node => event driven architecture - event emit => event loops picks => callback are called
+- node also rely on http-parser, c-ares(DNS), openSSL(cryptography), zlib(compression)
+
+ 
