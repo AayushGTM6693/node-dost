@@ -1,0 +1,8 @@
+- Api is a piece of software that can be used by
+another piece of software to talk to each other
+- Rest Api
+1. Seperate Api into logical resources
+2. Exposed(make available) structured, resource based urls
+3. use Http methods(verbs)
+4. send data as JSON (usually)
+5. Be stateless

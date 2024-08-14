@@ -1,0 +1,22 @@
+{
+  "tours": [
+    {
+      "name": "Tour 1",
+      "description": "This is the first tour",
+      "duration": "2 hours",
+      "price": 50
+    },
+    {
+      "name": "Tour 2",
+      "description": "This is the second tour",
+      "duration": "3 hours",
+      "price": 75
+    },
+    {
+      "name": "Tour 3",
+      "description": "This is the third tour",
+      "duration": "4 hours",
+      "price": 100
+    }
+  ]
+}
