@@ -17,7 +17,7 @@ app.use(express.json()); // middleware => modify incoming req data
 
 const tours = JSON.parse(fs.readFileSync("sample.json"));
 
-app.get("/api/v1/tours", (req, res) => {
+function getTour(req, res) {
   res.status(200).json({
     // halka formatting
     status: "success",
@@ -26,9 +26,9 @@ app.get("/api/v1/tours", (req, res) => {
       tours: tours,
     },
   });
-});
+}
 
-app.post("/api/v1/tours", (req, res) => {
+function postTour(req, res) {
   // console.log(req.body);
   const newId = tours[tours?.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -47,8 +47,53 @@ app.post("/api/v1/tours", (req, res) => {
       },
     });
   });
-});
+}
 
+function getTourById(req, res) {
+  // req.params , ? => optional params
+  const id = req.params.id * 1;
+  const tour = tours.find((el) => el.id === id);
+
+  //   if (id > tours.length) {
+  if (!tour) {
+    return res.status(404).json({
+      status: "failed",
+      message: "Invalid id",
+    });
+  }
+
+  res.status(200).json({
+    // halka formatting
+    status: "success",
+
+    data: {
+      tour,
+    },
+  });
+}
+
+function updateTourById(req, res) {
+  const id = req.params.id * 1;
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "failed",
+      message: "Invalid id",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      tour: "updated tour here:",
+    },
+  });
+}
+
+app.route("/api/v1/tours").get(getTour).post(postTour);
+
+app.route("/api/v1/tours/:id/").get(getTourById).patch(updateTourById);
+
+// detelte status code => 204
 const port = 3000;
 app.listen(port, () => {
   console.log(`running in port ${port} `);
