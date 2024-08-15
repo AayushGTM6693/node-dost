@@ -2,6 +2,32 @@ const fs = require("fs");
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../sample.json`));
 
+const checkId = (_, res, next, val) => {
+  if (val * 1 > tours.length) {
+    return res.status(404).json({
+      status: "failed",
+      message: "Invalid id",
+    });
+  }
+  next();
+};
+
+const checkBody = (req, res, next) => {
+  console.log("req body", req.body);
+  const requiredFields = ["name", "price"];
+  const keys = Object.keys(req.body);
+  console.log("keys", keys);
+  const hasFields = requiredFields.some((el) => keys.includes(el));
+  console.log("true or false", !hasFields);
+
+  if (!hasFields) {
+    return res.status(404).json({
+      status: "fail",
+      message: "missing name or price",
+    });
+  }
+  next();
+};
 function getAllTour(req, res) {
   res.status(200).json({
     // by sending response we end
@@ -42,12 +68,6 @@ function getTour(req, res) {
   const tour = tours.find((el) => el.id === id);
 
   //   if (id > tours.length) {
-  if (!tour) {
-    return res.status(404).json({
-      status: "failed",
-      message: "Invalid id",
-    });
-  }
 
   res.status(200).json({
     // halka formatting
@@ -60,14 +80,6 @@ function getTour(req, res) {
 }
 
 function updateTour(req, res) {
-  const id = req.params.id * 1;
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: "failed",
-      message: "Invalid id",
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {
@@ -84,4 +96,6 @@ module.exports = {
   postTour,
   updateTour,
   deleteTour,
+  checkId,
+  checkBody,
 };

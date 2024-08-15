@@ -4,7 +4,13 @@ const tourController = require("../controllers/tour.controller");
 
 const router = express.Router();
 
-router.route("/").get(tourController.getAllTour).post(tourController.postTour);
+// this middleware is specified to this router only
+router.param("id", tourController.checkId);
+
+router
+  .route("/")
+  .get(tourController.getAllTour)
+  .post(tourController.checkBody, tourController.postTour);
 router
   .route("/:id")
   .get(tourController.getTour)
