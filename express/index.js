@@ -1,99 +1,30 @@
-const fs = require("fs");
 const express = require("express");
+// const morgan = require("morgan");
 
+const TourRouter = require("./routes/tour.route");
+const userRouter = require("./routes/user.route");
+// order matters  in express
 const app = express();
+
+// app.use(morgan("dev"));
 app.use(express.json()); // middleware => modify incoming req data
 // data from the body is added to the req , so we can use req.body
+// app.use => we use middleware
+
+app.use((req, res, next) => {
+  console.log("Hello from the middleware 🤚");
+  next();
+}); // global middleware should be above the route handler
+// route is also middleware that applies for certain url
 
 // routing
-
 // app.get("/", (req, res) => {
 //   res.status(200).send("Hello from express server");
 // });
 
-// app.get("/index", (req, res) => {
-//   res.status(200).send("Hello from express server index");
-// });
-
-const tours = JSON.parse(fs.readFileSync("sample.json"));
-
-function getTour(req, res) {
-  res.status(200).json({
-    // halka formatting
-    status: "success",
-    results: tours?.length,
-    data: {
-      tours: tours,
-    },
-  });
-}
-
-function postTour(req, res) {
-  // console.log(req.body);
-  const newId = tours[tours?.length - 1].id + 1;
-  const newTour = Object.assign({ id: newId }, req.body);
-  console.log("new tour", newTour);
-
-  tours.push(newTour);
-  console.log("tours", tours);
-
-  // so now we need this data to persist in the json
-  fs.writeFile("sample.json", JSON.stringify(tours), (err) => {
-    // we save the new data in our file and send the new data in the response
-    res.status(201).json({
-      status: "success",
-      data: {
-        tour: newTour,
-      },
-    });
-  });
-}
-
-function getTourById(req, res) {
-  // req.params , ? => optional params
-  const id = req.params.id * 1;
-  const tour = tours.find((el) => el.id === id);
-
-  //   if (id > tours.length) {
-  if (!tour) {
-    return res.status(404).json({
-      status: "failed",
-      message: "Invalid id",
-    });
-  }
-
-  res.status(200).json({
-    // halka formatting
-    status: "success",
-
-    data: {
-      tour,
-    },
-  });
-}
-
-function updateTourById(req, res) {
-  const id = req.params.id * 1;
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: "failed",
-      message: "Invalid id",
-    });
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      tour: "updated tour here:",
-    },
-  });
-}
-
-app.route("/api/v1/tours").get(getTour).post(postTour);
-
-app.route("/api/v1/tours/:id/").get(getTourById).patch(updateTourById);
-
-// detelte status code => 204
+// mounting the router
+app.use("/api/v1/tours", TourRouter); // tourrouter is being connected with our app
+app.use("/api/v1/users", userRouter);
 const port = 3000;
 app.listen(port, () => {
   console.log(`running in port ${port} `);
