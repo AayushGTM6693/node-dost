@@ -1,18 +1,16 @@
 const express = require("express");
-
-function getAllUsers(req, res) {}
-function createUser(req, res) {}
-function getUser(req, res) {}
-function updateUser(req, res) {}
-function deleteUser(req, res) {}
+const userController = require("../controllers/user.controller");
 
 const router = express.Router();
-router.route("/api/v1/user").get(getAllUsers).post(createUser);
+router
+  .route("/api/v1/user")
+  .get(userController.getAllUsers)
+  .post(userController.createUser);
 router
   .route("/api/v1/user/:id")
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 // detelte status code => 204
 
 module.exports = router;

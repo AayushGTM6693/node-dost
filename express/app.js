@@ -1,12 +1,12 @@
 const express = require("express");
-// const morgan = require("morgan");
+const morgan = require("morgan");
 
 const TourRouter = require("./routes/tour.route");
 const userRouter = require("./routes/user.route");
 // order matters  in express
 const app = express();
 
-// app.use(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json()); // middleware => modify incoming req data
 // data from the body is added to the req , so we can use req.body
 // app.use => we use middleware
@@ -25,7 +25,5 @@ app.use((req, res, next) => {
 // mounting the router
 app.use("/api/v1/tours", TourRouter); // tourrouter is being connected with our app
 app.use("/api/v1/users", userRouter);
-const port = 3000;
-app.listen(port, () => {
-  console.log(`running in port ${port} `);
-});
+
+module.exports = app;
