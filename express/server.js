@@ -1,6 +1,12 @@
-const app = require("./app"); // own module => ./ use garni
+// own module => ./ use garni
+const dotenv = require("dotenv");
 
-const port = 3000;
+dotenv.config({ path: "./config.env" });
+const app = require("./app");
+
+console.log(process.env);
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`running in port ${port} `);
 });

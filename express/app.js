@@ -6,7 +6,9 @@ const userRouter = require("./routes/user.route");
 // order matters  in express
 const app = express();
 
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 app.use(express.json()); // middleware => modify incoming req data
 // data from the body is added to the req , so we can use req.body
 // app.use => we use middleware
