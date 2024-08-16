@@ -1,0 +1,19 @@
+-  MongoDB is a NoSQL database, which means it stores data in a non-relational format (documents).
+-  Data is stored in BSON format (Binary JSON), allowing for nested and complex data structures.
+-  MongoDB doesn't enforce a schema, making it flexible and allowing dynamic data structures.
+
+ - A record in MongoDB, represented as a JSON object (BSON in storage).
+-  A key-value pair in a document, similar to a column in SQL.
+
+CRUD Operations
+
+Create: Use insertOne() or insertMany() to add documents.
+Read: Use find() to query documents, with optional filters to refine results.
+Update: Use updateOne() or updateMany() to modify existing documents.
+Delete: Use deleteOne() or deleteMany() to remove documents.
+
+Querying
+
+Basic Query: { field: value } - retrieves documents where the field matches the value.
+Operators: Use operators like $gt, $lt, $in, etc., to refine queries.
+Projections: Select specific fields to return in a query using { field: 1, _id: 0 }.
