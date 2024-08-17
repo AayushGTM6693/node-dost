@@ -9,15 +9,9 @@ const db = process.env.MONGODB_URI.replace(
   process.env.MONGODB_PASSWORD
 );
 
-mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then((con) => {
-    console.log(con.connections);
-    console.log("DB connection success");
-  });
+mongoose.connect(db).then(() => {
+  console.log("DB connection success");
+});
 
 const port = process.env.PORT || 3000;
 

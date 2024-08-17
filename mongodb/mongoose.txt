@@ -1,0 +1,6 @@
+- odm library for mongodb and node js
+- we model data in mongoose schema
+- we take that schema and create a model out of it
+  Model is a wrapper around schema which allows us to interact
+  with database to do CRUD operations.
+

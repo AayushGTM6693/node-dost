@@ -1,0 +1,25 @@
+- mvc (model view controller)
+- model - concerned with application data
+- controller - func of the controllers  is to 
+handle the application request, interact with model
+and send back responses to the client
+- view -  templates used to generate the view, so the website that we're going to send
+back to the client
+
+-- Easier to maintain in scale,
+- flow
+req=> router=> controller <=> model, controller<=> view , controller=> response
+
+Application logic  (controllers)
+- managing req and response to keep running the web application
+- technical stuff
+- bridge betwn model and view layer
+
+Business logic (models)
+- what business needs , how its works, 
+eg ensuring only user who bought the thing can review it
+and PROFIT PROFIT AND PROFIT 
+
+Fat models/thin controllers
+- offload much logic to model , making the controllers as simple
+and lean
