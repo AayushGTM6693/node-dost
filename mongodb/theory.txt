@@ -17,3 +17,19 @@ Querying
 Basic Query: { field: value } - retrieves documents where the field matches the value.
 Operators: Use operators like $gt, $lt, $in, etc., to refine queries.
 Projections: Select specific fields to return in a query using { field: 1, _id: 0 }.
+
+read query
+// example db.tour.find({$or: [{price: {$gte: 400}}, {rating: {$gt:4.8}}]})
+- filter, Projection
+find({$or: [{price: {$gte: 400}}, {rating: {$gt:4.8}}]}, 
+{name:1} //  shows only name
+)
+
+// update query
+db.tour.updateOne({name:"---"},{$set: {price:597}}) // set creates one if there is none
+- filter , what to update
+// replaceOne - replaces the document
+
+// delete documents
+db.tours.deleteMany({ rating:{lt:4.8}})
+// {} => all docs gets matched
