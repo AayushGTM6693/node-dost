@@ -14,6 +14,7 @@ const tourSchema = new mongoose.Schema({
     required: [true, "A tour must have a price"],
   },
 });
+// every thing that isnt in the schema is ignored from the post req
 
 const Tour = mongoose.model("Tour", tourSchema); // a model out of the schema
 
