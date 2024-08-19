@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = require("./app");
 
-dotenv.config({ path: "./.env" });
+dotenv.config({ path: "./config.env" });
 
 const db = process.env.MONGODB_URI.replace(
   "<PASSWORD>",

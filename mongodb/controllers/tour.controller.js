@@ -50,7 +50,7 @@ async function getTour(req, res) {
     const tour = await Tour.findById(req.params.id);
     // Tour.findOne({ _id: req.params.id })
     res.status(201).json({
-      status: "success bolte",
+      status: "success boltejhbj",
       data: {
         tour,
       },
@@ -62,32 +62,51 @@ async function getTour(req, res) {
     });
   }
 }
-
 async function updateTour(req, res) {
   try {
-    console.log("body", req.body);
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      // find,data want to change
-      new: true, // updated document will get returned
-      runValidators: true,
-    });
-    console.log("Updated tour:", tour); // Log the result
+    console.log("Received update request for ID:", req.params.id);
+    console.log("Update data:", req.body);
 
-    res.status(201).json({
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true, // Ensure the updated data is validated against the schema
+    });
+
+    if (!tour) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No tour found with that ID",
+      });
+    }
+
+    return res.status(200).json({
       status: "success",
       data: {
         tour,
       },
     });
   } catch (error) {
-    res.status(404).json({
-      status: "failed bolte",
-      message: error,
+    console.error("Error updating tour:", error);
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
     });
   }
 }
 
-function deleteTour() {}
+async function deleteTour(req, res) {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
+    res.status(201).json({
+      status: "success boltejhbj",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
 
 module.exports = {
   getAllTour,
