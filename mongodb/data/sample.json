@@ -1,0 +1,20 @@
+{
+  "name": "The Grand challenge tour",
+  "duration": 7,
+  "maxGroupsize": 15,
+  "difficulty": "medium",
+  "ratingsAverage": 4.7,
+  "ratingsQuantity": 45,
+  "price": 1200,
+  "priceDiscount": 200,
+  "summary": "An unforgettable 7-day tour through the Grand Canyon.",
+  "description": "Explore the majestic Grand Canyon with experienced guides, enjoying stunning views, and learning about the area's history and geology.",
+  "imageCover": "grand-canyon-cover.jpg",
+  "images": ["image1.jpg", "image2.jpg", "image3.jpg"],
+  "createdAt": "2024-08-21T10:00:00.000Z",
+  "startDates": [
+    "2024-09-01T10:00:00.000Z",
+    "2024-10-15T10:00:00.000Z",
+    "2024-11-20T10:00:00.000Z"
+  ]
+}
