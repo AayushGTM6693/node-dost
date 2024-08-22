@@ -2,8 +2,36 @@ const Tour = require("../models/tour.model");
 
 async function getAllTour(req, res) {
   try {
-    const tour = await Tour.find(); // return the
-    // array of all document
+    // build the query
+    const queryObj = { ...req.query }; // shallow copy
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    console.log("query", queryObj);
+    // adv query
+    let queryParam = JSON.stringify(queryObj);
+    queryParam = queryParam.replace(/\b(lte|gte|lt|gt)\b/g, (match) => {
+      return `$${match}`;
+    });
+    console.log("query param", queryParam);
+
+    const query = Tour.find(JSON.parse(queryParam));
+
+    // moongose way of writing query
+    // const tour = await Tour.find()
+    //   .where("duration")
+    //   .equals(5) // lte or sort
+    //   .where("difficulty")
+    //   .equals("easy"); // same as above
+
+    /*
+    Before await: You can chain query methods like .sort(), .limit(), .select(), etc., 
+    because you're still working with a Mongoose Query object.
+After await: The query is executed, and you have the result data,
+so you can't chain query methods anymore because you're no longer dealing with a query 
+object.*/
+
+    // execute the query
+    const tour = await query;
 
     res.status(200).json({
       status: "success",
