@@ -3,6 +3,10 @@ const tourController = require("../controllers/tour.controller");
 
 const router = express.Router();
 
+router // api aliasing
+  .route("/top-route")
+  .get(tourController.topRoute, tourController.getAllTour);
+// topRoute middleware re query lai prefill gardinxa so, we can access that is getalltour => req.query
 router
   .route("/")
   .get(tourController.getAllTour)

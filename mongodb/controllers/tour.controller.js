@@ -1,5 +1,10 @@
 const Tour = require("../models/tour.model");
 
+async function topRoute(req, res, next) {
+  req.query.sort = "price,-ratingsAverage";
+  req.query.limit = "2";
+  next();
+}
 async function getAllTour(req, res) {
   try {
     // build the query
@@ -8,13 +13,52 @@ async function getAllTour(req, res) {
     excludedFields.forEach((el) => delete queryObj[el]);
     console.log("query", queryObj);
     // adv query
+
     let queryParam = JSON.stringify(queryObj);
     queryParam = queryParam.replace(/\b(lte|gte|lt|gt)\b/g, (match) => {
       return `$${match}`;
-    });
-    console.log("query param", queryParam);
+    }); // for eg query { duration: { lte: '5' } } => query { duration: { $lte: '5' } }
 
-    const query = Tour.find(JSON.parse(queryParam));
+    let query = Tour.find(JSON.parse(queryParam));
+
+    // sorting
+    let queryParams = req.query.sort;
+    if (queryParams) {
+      console.log(queryParams);
+      const sortBy = queryParams.split(",").join(" "); // commma hatyo
+      console.log("sort by", sortBy);
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort("createdAt");
+    }
+
+    // .sort('price ratingsAverage') // fallback
+
+    // limiting
+
+    const limitingQuery = req.query.fields;
+    if (limitingQuery) {
+      const limitBy = limitingQuery.split(",").join(" ");
+      query = query.select(limitBy);
+    } else {
+      query = query.select("-__v");
+    }
+
+    //pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 2;
+    const skip = (page - 1) * limit; // page 3 => skip = 10
+    console.log("skip value", skip);
+
+    query = query.skip(skip).limit(limit);
+
+    if (page) {
+      const numTour = await Tour.countDocuments();
+
+      if (skip >= numTour) {
+        throw new Error("This page does not exist");
+      }
+    }
 
     // moongose way of writing query
     // const tour = await Tour.find()
@@ -77,6 +121,7 @@ async function getTour(req, res) {
   try {
     const tour = await Tour.findById(req.params.id);
     // Tour.findOne({ _id: req.params.id })
+
     res.status(201).json({
       status: "success boltejhbj",
       data: {
@@ -142,4 +187,5 @@ module.exports = {
   createTour,
   updateTour,
   deleteTour,
+  topRoute,
 };
